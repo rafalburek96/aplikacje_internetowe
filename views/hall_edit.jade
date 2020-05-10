@@ -1,0 +1,44 @@
+extends layout
+
+block extraHeader
+block content
+    div(id='main-container')
+        h1 Edytuj rezerwację
+        if hall_details
+            form(method='POST' action="/edit/sala/"+hall_details.id onsubmit="return validateEditHallForm();")
+                table(style='width: 100%;').table_horizontal_style
+                    tr
+                        td
+                            label(for='rodzaj') Rodzaj sali
+                        td
+                            input.form-control(type='text' id='rodzaj' placeholder='rodzaj' name='rodzaj' value=hall_details.rodzaj)
+                    tr
+                        td
+                            label(for='numersali') Numer sali
+                        td
+                            input.form-control(type='text' id='numersali' placeholder='numer sali' name='numersali' value=hall_details.numersali)
+                    tr
+                        td
+                            label(for='liczbamiejsc') Liczba miejsc
+                        td
+                            input.form-control(type='number' id='liczbamiejsc' placeholder='liczba miejsc' name='liczbamiejsc' value=hall_details.liczbamiejsc)
+                    tr
+                        td
+                            label(for='year') Ostatnia rezerwacja
+                        td
+                            input.form-control(type='number' id='year' placeholder='rok' name='year' value=hall_details.year)
+                            input.form-control(type='number' id='month' placeholder='miesiąc' name='month' value=hall_details.month)
+                            input.form-control(type='number' id='day' placeholder='dzień' name='day' value=hall_details.day)
+                    tr
+                        td
+                            label(for='cena') Cena za dzień [zł]
+                        td
+                            input.form-control(type='number' id='cena' placeholder='cena' name='cena' value=hall_details.cena)
+                p Wartosc ostatniej rezerwacji  sali  jest opcjonalna
+                button.btn.btn-primary(type='submit') Zatwierdź zmiany
+            div(style='padding-top: 50px;')
+                form(action="/remove/sala/"+hall_details.id onsubmit='return confirm("Czy napewno chcesz usunąć tą salę? Ta operacja jest nieodwracalna");')
+                    p Usuń sale
+                    button Usuń
+        else
+            p Nie udało się pobrać danych sali

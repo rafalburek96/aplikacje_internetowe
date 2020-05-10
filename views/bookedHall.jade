@@ -1,0 +1,50 @@
+extends layout
+
+block extraHeader
+block content
+    div(id='main-container')
+        h1 Moje zarezerwowane sale 
+        if !rents
+            p Błąd w pobieraniu sali
+        else if !(rents.length)
+            p W obecnej chwili nie masz żadnych zarezerwowanych sal
+        else
+            table.table_style
+                thead
+                    tr
+                        th
+                            label Rodzaj sali
+                        th
+                            label Numery sali
+                        th
+                            label Sala zarezerwowana od
+                        th
+                            label Sala zarezerwowana do
+                        th
+                            label Cena za dzień [zł]
+                        th
+                            label Potwierdzone
+                        th(style='width:80px;')
+                            label Edytuj rezerwacje
+                tbody
+                    each rent in rents
+                        tr
+                            td
+                                label !{rent.rodzaj}
+                            td
+                                label !{rent.numersali}
+                            td
+                                label !{rent.start_date}
+                            td
+                                label !{rent.end_date}
+                            td
+                                label !{rent.cena}
+                            if rent.confirmed === "NIE"
+                                td
+                                    label(style='color: RED;') !{rent.confirmed}
+                            else
+                                td
+                                    label(style='color: GREEN;') !{rent.confirmed}
+                            td
+                                form(action="/rent/edit/"+rent.rezID)
+                                    button.btn.btn-primary(type='submit') Zmień

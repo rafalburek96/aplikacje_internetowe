@@ -1,0 +1,37 @@
+extends layout
+
+block extraHeader
+    script(src="/javascripts/register.js")
+block content
+    div(class='center_div' style='padding:20px;')
+        h1(class='center_div')= title
+        form(method='POST' action='/register' onsubmit="return validateForm(email, password, repeated_password, first_name, last_name);")
+            table(class='center_div' style='margin:20px;')
+                tr
+                    td
+                        label(for='email') Email*
+                    td
+                        input.form-control(type='text' id='email' placeholder='email' name='email')
+                tr
+                    td
+                        label(for='password') Hasło*
+                    td
+                        input.form-control(type='password' id='password' placeholder='hasło' name='password')
+                tr
+                    td
+                        label(for='repeated_password') Powtórz hasło*
+                    td
+                        input.form-control(type='password' id='repeated_password' placeholder='powtórz hasło')
+                tr
+                    td
+                        label(for='first_name') Imię
+                    td
+                        input.form-control(type='text' id='first_name' placeholder='imię' name='first_name')
+                tr
+                    td
+                        label(for='last_name') Nazwisko
+                    td
+                        input.form-control(type='text' id='last_name' placeholder='nazwisko' name='last_name')
+            p(class='center_div') * - obowiązkowe
+            div(class='center_div' style='padding-top: 10px;')
+                button.btn.btn-primary(type='submit') Zarejestruj

@@ -1,0 +1,21 @@
+extends layout
+
+block extraHeader
+block content
+    div(class='center_div' style='padding:20px;')
+        h1(class='center_div')= title
+        form(method='POST' action='/login')
+            table(class='center_div' style='margin:20px;')
+                tr
+                    td
+                        label(for='email') Email
+                    td
+                        input.form-control(type='text' id='email' placeholder='email' name='email')
+                tr
+                    td
+                        label(for='password') Hasło
+                    td
+                        input.form-control(type='password' id='password' placeholder='password' name='password')
+                tr
+                    td
+                        button.btn.btn-primary(type='submit') Zaloguj

@@ -1,0 +1,70 @@
+extends layout
+
+block extraHeader
+block content
+    div(id='main-container')
+        h1 Edytuj rezerwację
+        if rent
+            form(method='POST' action="/admin/rent/edit/"+rent.rezID onsubmit="return validateEditRentForm();")
+                table(style='width: 100%;').table_horizontal_style
+                    tr
+                        td
+                            label Identyfikator rezerwacji
+                        td
+                            label !{rent.rezID}
+                    tr
+                        td
+                            label(for='salaID') Identyfikator sali
+                        td
+                            input.form-control(type='number' id='salaID' placeholder='id sali' name='salaID' value=rent.SalaID)
+                    tr
+                        td
+                            label(for='userID') Identyfikator użytkownika
+                        td
+                            input.form-control(type='number' id='userID' placeholder='id użytkownika' name='userID' value=rent.userID)
+                    tr
+                        td
+                            label(for='start_date') Sala zarezerwowana od
+                        td
+                            input(id="datetimepicker-start" name='start_date' type='text')
+                    tr
+                        td
+                            label(for='end_date') Sala zarezerwowana do
+                        td
+                            input(id="datetimepicker-end" name='end_date' type='text')
+                    tr
+                        td
+                            label(for='total_price') Całkowity koszt użytkownika [zł]
+                        td
+                            input.form-control(type='number' id='total_price' placeholder='kwota' name='total_price' value=rent.total_price)
+                    tr
+                        td
+                            label(for='confirmed') Potwierdzony
+                        td
+                            if rent.confirmed
+                                input.form-control(style='display: block;' type='checkbox' id='confirmed' placeholder='potwierdzony' name='confirmed' checked)
+                            else
+                                input.form-control(style='display: block;' type='checkbox' id='confirmed' placeholder='potwierdzony' name='confirmed')
+                            
+                button.btn.btn-primary(type='submit' style='margin-top: 25px;') Zatwierdź zmiany
+            div(style='padding-top: 50px;')
+                form(action="/admin/rent/remove/"+rent.rezID onsubmit='return confirm("Czy napewno chcesz usunąć tą rezerwację? Ta operacja jest nieodwracalna");')
+                    p Usuń rezerwację
+                    button Usuń
+
+block script
+    script(src="https://cdn.jsdelivr.net/jquery/latest/jquery.js")
+    link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.js")
+    script(src='/javascripts/admin_rent_edit_helper.js')
+    if rent
+        script.
+                $('#datetimepicker-start').datetimepicker({
+                    maxDate: "#{rent.end_date}"
+                });
+
+                $('#datetimepicker-end').datetimepicker({
+                    minDate: "#{rent.start_date}"
+                });
+                $('#datetimepicker-start').val("#{rent.start_date}");
+                $('#datetimepicker-end').val("#{rent.end_date}");

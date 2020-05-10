@@ -1,0 +1,92 @@
+extends layout
+
+block content
+    div(id='main-container' style='width:100%; overflow: hidden; padding: 0px')
+        if sala
+            h1(style='margin-left:10px; text-align: center;') Zarezerwuj sale
+            div(style='width: 30%; float: left; margin: 10px;')
+                h3(style='text-align: center') Informacje o sali
+                div(style='max-width:100%; max-height:100%;')
+                    img(src='/images/'+sala.id+".jpg" style='max-height: inherit; max-width: inherit')
+                table.table_horizontal_style
+                    tr
+                        td
+                            p Rodzaj sali
+                        td
+                            p !{sala.rodzaj}
+                    tr
+                        td
+                            p Ostatnia rezerwacja
+                        td
+                            p !{sala.ostatniarez}
+                    tr
+                        td
+                            p Cena za dzień [zł]
+                        td
+                            p(id='hall_price_per_day') !{sala.cena}
+
+            div(style='margin-left: 30%; padding: 20px;')
+                h3(style='text-align: center') Wybierz date
+                form(action="/rent/sala/"+sala.id method='POST' onsubmit='return validateDates(start_date, end_date)')
+                    div(style='width:100%; margin: 0 auto;')
+                        div(style='width:50%; float:left')
+                            div(style='text-align: center;')
+                                label Od: 
+                                input(id="datetimepicker-start" name='start_date' type='text')
+                        div(style='width:50%; float:left')
+                            div(style='text-align: center;')
+                                label Do: 
+                                input(id="datetimepicker-end" name='end_date' type='text')
+                    div(style='text-align:center; padding-top: 40px;')
+                        a Łączna cena 
+                            a(id='total_price') 0
+                            a  zł
+                    div(style='text-align:center; margin-top: 5px;')
+                        button(type='button' onclick='clearDatePickers()') Wyczyść
+                        button Zarezerwuj
+
+                div(style='padding:20px; text-align:center;')
+                    h3 Aktywne rezerwacje
+                    if !rents || !rents.length
+                        p Brak aktywnych rezerwacji
+                    else
+                        table.table_style
+                            thead
+                                tr
+                                    th(style='text-align:center;')
+                                        label Sala zarezerwowana od
+                                    th(style='text-align:center;')
+                                        label Sala zarezerwowana do
+                                    th(style='text-align:center;')
+                                        label Zweryfikowane
+                            tbody    
+                                each rent in rents
+                                    tr
+                                        td
+                                            label !{rent.start_date}
+                                        td
+                                            label !{rent.end_date}
+                                        if rent.confirmed === "NIE"
+                                            td
+                                                label(style='color: RED;') !{rent.confirmed}
+                                        else
+                                            td
+                                                label(style='color: GREEN;') !{rent.confirmed}
+        else
+            p Przepraszamy, nie udało się pobrać informacji o tej sali
+
+block script
+    script(src="https://cdn.jsdelivr.net/jquery/latest/jquery.js")
+    link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.js")
+    script(src='/javascripts/datehelper.js')
+    each rent in rents
+        script. 
+            -DisableDates("#{rent.start_date}", "#{rent.end_date}")
+    script.
+        -ApplyDisabledDates()
+    if start_date && end_date
+        script.
+            $('#datetimepicker-start').val("#{start_date}");
+            $('#datetimepicker-end').val("#{end_date}");
+            updateTotalPrice();

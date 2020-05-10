@@ -1,0 +1,171 @@
+extends layout
+
+block extraHeader
+    script(src='/javascripts/manager_helper.js')
+block content
+    div(id='main-container')
+        h1 Zarządzanie rezerwacjami
+        .tab
+            button.tablinks(onclick='openTabLink(event, "AllHalls")' id="defaultOpenJavascriptTab") Wszystkie sale
+            button.tablinks(onclick='openTabLink(event, "AddHall")') Dodaj salę
+            button.tablinks(onclick='openTabLink(event, "ConfirmRent")') Oczekujące rezerwacje
+            button.tablinks(onclick='openTabLink(event, "RentHistory")') Historia rezerwacji sal:
+        #AllHalls.tabcontent
+            if(halls && halls.length)
+                table.table_style
+                    thead
+                        tr
+                            th
+                                label ID
+                            th
+                                label Rodzaj sali
+                            th
+                                label Numer sali
+                            th
+                                label Liczba miejsc
+                            th
+                                label Ostatnia rezerwacja
+                            th
+                                label Cena za dzień [zł]
+                            th(style='width:50px;')
+                                label Edycja
+                    tbody
+                        each sala in halls
+                            tr
+                                td
+                                    label !{sala.id}
+                                td
+                                    label !{sala.rodzaj}
+                                td
+                                    label !{sala.numersali}
+                                td
+                                    label !{sala.liczbamiejsc}
+                                td
+                                    label !{sala.ostatniarez}
+                                td
+                                    label !{sala.cena}
+                                td
+                                    form(action="/edit/sala/"+sala.id)
+                                        button.btn.btn-primary(type='submit') Edytuj
+            else
+                p Brak sal w bazie danych
+        #AddHall.tabcontent
+            form(method='POST' style='margin:20px;' action='/add/sala' onsubmit="return validateAddHallForm(rodzaj, numersali, liczbamiejsc, year, month, day, cena);")
+                table(style='width: 100%;')
+                    tr
+                        td
+                            label(for='rodzaj') Rodzaj sali
+                        td
+                            input.form-control(type='text' id='rodzaj' placeholder='rodzaj' name='rodzaj')
+                    tr
+                        td
+                            label(for='numersali') Numer sali
+                        td
+                            input.form-control(type='text' id='numersali' placeholder='numer sali' name='numersali')
+                    tr
+                        td
+                            label(for='liczbamiejsc') Liczba miejsc
+                        td
+                            input.form-control(type='number' id='liczbamiejsc' placeholder='liczba miejsc' name='liczbamiejsc')
+                    tr
+                        td
+                            label(for='year') Ostatnia rezerwacja
+                        td
+                            input.form-control(type='number' id='year' placeholder='rok' name='year')
+                            input.form-control(type='number' id='month' placeholder='miesiąc' name='month')
+                            input.form-control(type='number' id='day' placeholder='dzień' name='day')
+                    tr
+                        td
+                            label(for='cena') Cena za dzień [zł]
+                        td
+                            input.form-control(type='number' id='cena' placeholder='cena' name='cena')
+                p Ostatnia rezerwacja   sali  jest opcjonalna
+                button.btn.btn-primary(type='submit') Dodaj sale
+        #ConfirmRent.tabcontent
+            if(rents_to_confirm && rents_to_confirm.length)
+                table.table_style
+                    thead
+                        tr
+                            th
+                                label ID
+                            th
+                                label Użytkownik
+                            th
+                                label Sala
+                            th
+                                label Numer sali
+                            th
+                                label Sala zarezerwowana od
+                            th
+                                label Sala zarezerwowana do
+                            th
+                                label Cena za dzień [zł]
+                            th(style='width:80px;')
+                                label Potwierdź rezerwacje
+                    tbody
+                        each rent in rents_to_confirm
+                            tr
+                                td
+                                    label !{rent.rezID}
+                                td
+                                    label !{rent.email}
+                                td
+                                    label !{rent.rodzaj}
+                                td
+                                    label !{rent.numersali}
+                                td
+                                    label !{rent.start_date}
+                                td
+                                    label !{rent.end_date}
+                                td
+                                    label !{rent.cena}
+                                td
+                                    form(action="/admin/rent/confirm/"+rent.rezID)
+                                        button.btn.btn-primary(type='submit') Potwierdź
+            else
+                label Brak rezerwacji do zatwierdzenia
+        #RentHistory.tabcontent
+            if(rent_history && rent_history.length)
+                table.table_style
+                    thead
+                        tr
+                            th
+                                label ID
+                            th
+                                label Użytkownik
+                            th
+                                label Sala
+                            th
+                                label Numer sali
+                            th
+                                label Sala zarezerwowana od
+                            th
+                                label Sala zarezerwowana do
+                            th
+                                label Cena za dzień [zł]
+                            th(style='width:80px;')
+                                label Edytuj rezerwacje
+                    tbody
+                        each rent in rent_history
+                            tr
+                                td
+                                    label !{rent.rezID}
+                                td
+                                    label !{rent.email}
+                                td
+                                    label !{rent.rodzaj}
+                                td
+                                    label !{rent.numersali}
+                                td
+                                    label !{rent.start_date}
+                                td
+                                    label !{rent.end_date}
+                                td
+                                    label !{rent.cena}
+                                td
+                                    form(action="/admin/rent/edit/"+rent.rezID)
+                                        button.btn.btn-primary(type='submit') Zmień
+            else
+                p Brak rezerwacji
+        script.
+            document.getElementById("defaultOpenJavascriptTab").click();

@@ -1,0 +1,93 @@
+extends layout
+
+block extraHeader
+block content
+  div(id="main-container")
+    if !user
+      h1= title
+      p Dzień dobry! Dziękujemy za skorzysanie z naszej stron!  W celu wyświetlenia naszej oferty, prosimy o zalogowanie się :)
+
+    else
+      div(style='width:100%; margin: 0 auto;')
+        form(method='POST' action='/index/filter')
+          h1(style='text-align:center;') Filtruj sale według dostępności 
+          div(style='text-align: center;')
+            p Data rezerwacji sal  (wypełnij oba pola)
+          div(style='width:50%; float:left')
+            div(style='text-align: center;')
+              label Od: 
+              input(id="datetimepicker-start" name='start_date' type='text')
+          div(style='width:50%; float:left')
+            div(style='text-align: center;')
+              label Do: 
+              input(id="datetimepicker-end" name='end_date' type='text')
+          div(style='text-align: center;')
+            button Filtruj
+      h1 Lista dostępnych sal
+      if(halls && halls.length)
+        table.table_style
+          thead
+            tr
+              th(style='max-width:500px;')
+                label Zdjęcie
+              th
+                label Rodzaj sali
+              th
+                label Numer sali
+              th
+                label Liczba miejsc
+              th
+                label Ostatnia rezerwacja
+              th
+                label Cena za dzień [zł]
+              if totalDays
+                th
+                  label Koszt za !{totalDays} dni
+              th(style='width:80px;')
+                label Pokaż terminy
+          tbody
+            each sala in halls
+              tr
+                td
+                  div(style='max-width:500px; max-height:500px;')
+                    img(src='/images/'+sala.id+".jpg" style='max-height: inherit; max-width: inherit')
+                td
+                  label !{sala.rodzaj}
+                td
+                  label !{sala.numersali}
+                td
+                  label !{sala.liczbamiejsc}
+                td
+                  label !{sala.ostatniarez}
+                td
+                  label !{sala.cena}
+                if totalDays
+                  td
+                    - var cena=totalDays*sala.cena
+                    label !{cena}
+                td
+                  if start_date && end_date
+                    form(action="/sala/"+sala.id+"/start/"+start_date+"/end/"+end_date)
+                      button.btn.btn-primary(type='submit') Zarezerwuj
+                  else
+                    form(action="/sala/"+sala.id)
+                      button.btn.btn-primary(type='submit') Zarezerwuj
+                    
+      else
+        p Wszystkie sale są niedostępne
+block script
+  script(src="https://cdn.jsdelivr.net/jquery/latest/jquery.js")
+  link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.js")
+  script(src='/javascripts/indexhelper.js')
+  if start_date && end_date
+    script.
+      $('#datetimepicker-start').datetimepicker({
+        maxDate: formatDate("#{end_date}")
+      });
+
+      $('#datetimepicker-end').datetimepicker({
+        minDate: formatDate("#{start_date}")
+      });
+      $('#datetimepicker-start').val(formatDate("#{start_date}"));
+      $('#datetimepicker-end').val(formatDate("#{end_date}"));

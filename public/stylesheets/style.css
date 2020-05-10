@@ -1,0 +1,330 @@
+body{
+	margin: auto;
+	padding: 0%;
+	margin: 0%;
+}
+
+/*h1.kontakt{*/
+#tytul_kontakt{
+	background-color: lightblue;
+	font-size: 50px;
+	text-align: center;
+	margin: 0;
+	padding: 5px;
+	border: 0;
+	outline: 0;
+	padding-left: 0%;
+}
+
+#float_menu_to_right{
+	float:right;
+}
+
+.kontakt{
+	background-color:white;
+	margin-top:30;
+	width:760px;
+	margin:auto;
+}
+
+p.kontakt{
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	/*  ^^^^^ żeby padding nie wliczał się w width, więcej info: https://stackoverflow.com/questions/4698054/css-does-the-width-include-the-padding */
+	padding:3px;
+}
+
+.footer{
+	width:760px;
+	margin:auto;
+	color:#B0B0B0;
+}
+
+ul{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	position: absolute;
+}
+
+li{
+	background-color: #A0A0A0;
+	display: inline-block;
+	float: left;
+	margin-right: 1px;
+}
+/*Strip the ul of padding and list styling*/
+ul {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    position: absolute;
+}
+/*Create a horizontal list with spacing*/
+li {
+    display:inline-block;
+    float: left;
+    margin-right: 1px;
+}
+/*Style for menu links*/
+li a {
+    display:block;
+    min-width:50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #fff;
+    background: #2f3036;
+    text-decoration: none;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+/*Hover state for top level links*/
+li:hover a {
+    background: #19c589;
+}
+/*Style for dropdown links*/
+li:hover ul a {
+    background: #f3f3f3;
+    color: #2f3036;
+    height: 40px;
+    line-height: 40px;
+}
+/*Hover state for dropdown links*/
+li:hover ul a:hover {
+    background: #19c589;
+    color: #fff;
+}
+/*Hide dropdown links until they are needed*/
+li ul {
+    display: none;
+}
+/*Make dropdown links vertical*/
+li ul li {
+    display: block;
+    float: none;
+}
+/*Prevent text wrapping*/
+li ul li a {
+    width: auto;
+    min-width: 100px;
+    padding: 0 20px;
+}
+/*Display the dropdown on hover*/
+ul li a:hover + .hidden, .hidden:hover {
+    display: block;
+}
+/*Style 'show menu' label button and hide it by default*/
+.show-menu {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-decoration: none;
+    color: #fff;
+    background: #19c589;
+    text-align: center;
+    padding: 15.75px 0;
+    display: none;
+}
+/*Hide checkbox*/
+input[type=checkbox] {
+    display: none;
+}
+/*Show menu when invisible checkbox is checked*/
+input[type=checkbox]:checked ~ #menu{
+    display: block;
+}
+/*Responsive Styles*/
+@media screen and (max-width : 760px){
+    /*Make dropdown links appear inline*/
+    ul {
+        position: static;
+        display: none;
+    }
+    /*Create vertical spacing*/
+    li {
+        margin-bottom: 0px;
+    }
+    /*Make all menu links full width*/
+    ul li, li a {
+        width: 100%;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    /*Display 'show menu' link*/
+    .show-menu {
+        display:block;
+    }
+    #tytul_kontakt{
+    	text-align: center;
+    }
+	.kontakt{
+		width:100%;
+	}
+	.footer{
+	width:100%;
+	}
+}
+
+@media screen and (min-width : 1200px){
+	.kontakt{
+		width:70%;
+	}
+	.footer{
+		width:70%;
+		margin:auto;
+	}
+	#tytul_kontakt{
+		font-size:80px;
+	}
+	p.kontakt{
+		width:100%;
+		font-size:28px;
+		text-align:left;
+	}
+}
+
+#menu{
+	position: relative;
+}
+
+#top-menu{
+	height:50px;
+	background: #2f3036;
+}
+
+.center_div {
+  width: 50%;
+  margin: 0 auto;
+}
+
+#main-container {
+  padding: 10px;
+}
+
+.alert-success {
+  width: 90%;
+  margin: 0 auto;
+  height: 35px;
+  background-color: limegreen;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.alert-failed {
+  width: 90%;
+  margin: 0 auto;
+  height: 35px;
+  background-color: red;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.alert-info {
+  width: 90%;
+  margin: 0 auto;
+  height: 35px;
+  background-color: navajowhite;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.message-head {
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.message {
+  display: flex;
+  margin: 10px;
+  align-items: left;
+}
+
+.close-button {
+  margin: auto;
+  margin-right: 0px;
+}
+
+/* Style the tab */
+div.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+.table_style {
+  width: 100%;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+}
+
+.table_style td, .table_style th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.table_style tr:nth-child(even){background-color: #f2f2f2;}
+
+.table_style tr:hover {background-color: #ddd;}
+
+.table_style th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+.table_horizontal_style {
+  width: 100%;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+}
+
+.table_horizontal_style td, .table_horizontal_style th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.table_horizontal_style td:nth-child(even){background-color: #f2f2f2;}
+
+.table_horizontal_style tr:hover {background-color: #ddd;}
+
+.table_horizontal_style th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
